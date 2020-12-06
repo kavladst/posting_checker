@@ -83,6 +83,9 @@ async def add_new_count_records(
     if not phrase_region:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND,
                             detail='phrase_region not found')
+    await phrase_region_service.update_phrase_region_date_by_id(
+        phrase_region_id
+    )
     count_records = await count_records_service.add_new_statistic(
         phrase_region)
     return Statistic(

@@ -21,7 +21,6 @@ services:
   backend:
     build:
       context: ./posting_api
-    image: backend_image
     command: python3 main.py
     depends_on:
       db:
@@ -33,3 +32,16 @@ services:
       DATABASE_PASSWORD: "postgres"
     ports:
       - 80:8000
+
+  scheduler:
+    build:
+      context: ./scheduler
+    command: python3 main.py
+    depends_on:
+      - backend
+    restart: always
+    environment:
+      API_URL: "http://backend:8000/"
+      API_TIMEOUT_SECONDS: 10
+      INTERVAL_UPDATE_MINUTES: 1
+      INTERVAL_SCHEDULE_MINUTES: 1

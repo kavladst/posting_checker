@@ -15,4 +15,4 @@ venv/
 *.iml
 
 # auto generated docs
-temp_html.html
+tmp_html.html

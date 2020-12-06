@@ -40,6 +40,13 @@ class PhraseRegionService:
         """
         return await self._storage.get_phrase_region_by_id(phrase_region_id)
 
+    async def update_phrase_region_date_by_id(self, phrase_region_id: UUID):
+        """
+        Set updated_at field to datetime.now() for phrase region.
+        :param phrase_region_id: Id of phrase region.
+        """
+        await self._storage.update_phrase_region_date_by_id(phrase_region_id)
+
 
 @lru_cache()
 def get_phrase_region_service(
