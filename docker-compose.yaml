@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "posts"
+    ports:
+      - 5432
+    volumes:
+      - ./sql_scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./posting_api
+    image: backend_image
+    command: python3 main.py
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: "postgres"
+      DATABASE_PASSWORD: "postgres"
+    ports:
+      - 80:8000
