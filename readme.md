@@ -1,4 +1,5 @@
-#Posting Checker
+# Posting Checker
+
 ## Методы
 
 1. **/api/openapi** - OpenAPI со всеми методами.
