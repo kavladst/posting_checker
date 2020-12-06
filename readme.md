@@ -19,14 +19,14 @@
 
 
 
-##Запуск
+## Запуск
 
     docker-compose build
     docker-compose up
 
 Приложение запущено на 80 порту. http://localhost/v1/phrase_region/
 
-##Тестирование
+## Тестирование
 
     cd posting_api/tests/functional
     docker-compose build
