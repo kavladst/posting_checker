@@ -34,7 +34,7 @@ class StatisticService:
     async def add_new_statistic(self, phrase_region: PhraseRegion
                                 ) -> CountRecords:
         """
-        Find new count records for input phrases region.
+        Insert new count records for input phrases region.
         :param phrase_region: Phrase_region for search.
         :return: New count records for phrases region.
         """

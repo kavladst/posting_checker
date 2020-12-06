@@ -8,4 +8,3 @@ DATABASE_NAME = config('DATABASE_NAME', default='posts')
 DATABASE_SCHEMA = config('DATABASE_SCHEMA', default='posts')
 
 CLASSIFIED_URL = config('CLASSIFIED_URL', default='https://www.avito.ru/')
-HTML_FILE_NAME = config('HTML_FILE_NAME', default='tmp_html')
