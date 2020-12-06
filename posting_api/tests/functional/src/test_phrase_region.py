@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List, Dict, Any
 
 import pytest
@@ -38,6 +39,9 @@ def test_add_phrase_region(setup_phrase_region_data: List[Dict[str, Any]]):
             'phrase': new_phrase_region['phrase'],
             'region': new_phrase_region['region'],
         }
+    )
+    new_phrase_region['updated_at'] = datetime.fromtimestamp(
+        new_phrase_region['updated_at']
     )
     phrase_regions += [new_phrase_region]
     response = get_from_api('phrase_region/')

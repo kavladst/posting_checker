@@ -11,6 +11,7 @@ def get_expected_phrase_region(phrase_region: Dict[str, Any]
         'id': phrase_region['id'],
         'phrase': phrase_region['phrase'],
         'region': phrase_region['region'],
+        'updated_at': phrase_region['updated_at'].timestamp()
     }
 
 

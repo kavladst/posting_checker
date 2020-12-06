@@ -20,6 +20,7 @@ class PhraseRegion(BaseModel):
     id: UUID
     phrase: str
     region: str
+    updated_at: float
 
 
 @router.post('/add', response_model=PhraseRegion)
@@ -42,7 +43,8 @@ async def create_region_phrase(
     return PhraseRegion(
         id=phrase_region_response.id,
         phrase=phrase_region_response.phrase,
-        region=phrase_region_response.region
+        region=phrase_region_response.region,
+        updated_at=phrase_region_response.updated_at.timestamp()
     )
 
 
@@ -61,7 +63,8 @@ async def get_all_region_phrases(
         PhraseRegion(
             id=phrase_region.id,
             phrase=phrase_region.phrase,
-            region=phrase_region.region
+            region=phrase_region.region,
+            updated_at=phrase_region.updated_at.timestamp()
         )
         for phrase_region in await phrase_region_service.get_phrase_regions()
     ]
