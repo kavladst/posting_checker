@@ -1,12 +1,14 @@
 from uuid import UUID
+from http import HTTPStatus
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from services.phrase_region_service import (
     PhraseRegionService, get_phrase_region_service
 )
+from utils.html_parser import get_top_records_names_from_page
 
 router = APIRouter()
 
@@ -21,6 +23,10 @@ class PhraseRegion(BaseModel):
     phrase: str
     region: str
     updated_at: float
+
+
+class Post(BaseModel):
+    name: str
 
 
 @router.post('/add', response_model=PhraseRegion)
@@ -67,4 +73,31 @@ async def get_all_region_phrases(
             updated_at=phrase_region.updated_at.timestamp()
         )
         for phrase_region in await phrase_region_service.get_phrase_regions()
+    ]
+
+
+@router.get('/top_posts', response_model=list)
+async def get_top_5_posts(
+        phrase_region_id: UUID,
+        phrase_region_service: PhraseRegionService = Depends(
+            get_phrase_region_service
+        )
+) -> List[Post]:
+    """
+    Returns 5 or less post's names on site.
+    :param phrase_region_id: Id of phrase region for search.
+    :param phrase_region_service:
+    :return: List of posts.
+    """
+    phrase_region = await phrase_region_service.get_phrase_region_by_id(
+        phrase_region_id
+    )
+    if not phrase_region:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND,
+                            detail='phrase_region not found')
+    return [
+        Post(name=post_name)
+        for post_name in get_top_records_names_from_page(
+            phrase_region.phrase, phrase_region.region
+        )
     ]
